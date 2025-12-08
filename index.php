@@ -111,7 +111,3 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
 
     return $grille;
 }
-
-$matrice = creerMatrice(10);
-$matrice = placer($pdo, $matrice, 1, 1); 
-// $matrice = tirer($matrice, 2, 3);
