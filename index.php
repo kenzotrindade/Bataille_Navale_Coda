@@ -113,10 +113,5 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
 }
 
 $matrice = creerMatrice(10);
-<<<<<<< HEAD
-$matrice = placer($pdo, $matrice, 1, 1);
-$matrice = tirer($matrice, 2, 3);
-=======
 $matrice = placer($pdo, $matrice, 1, 1); 
 // $matrice = tirer($matrice, 2, 3);
->>>>>>> 98ec589 (Fonction Tir connecter DB + Touché | Coulé)
