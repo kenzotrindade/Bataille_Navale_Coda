@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8">
@@ -10,7 +10,7 @@
 <body>
   <form method="post">
     <label>Taille : </label>
-    <input type="number" name="tailleMatrice" placeholder="10" min="5" max="20">
+    <input type="number" name="tailleMatrice" placeholder="10" min="10" max="20">
     <button type="submit">Créer !</button>
   </form>
 
