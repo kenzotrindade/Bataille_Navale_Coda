@@ -1,6 +1,6 @@
 <?php
 
-require "test_db.php";
+require "/../data/test_db.php";
 
 $matrice = array_fill(0, 10, array_fill(0, 10, 0));
 
@@ -13,7 +13,8 @@ function creerMatrice($taille)
 
 $matrice = creerMatrice($tailleMatrice);
 
-function placer($pdo, $grille, $game_id, $player_id){
+function placer($pdo, $grille, $game_id, $player_id)
+{
     $sql = "SELECT * FROM ships WHERE game_id = ? AND player_id = ?";
     $query = $pdo->prepare($sql);
     $query->execute([$game_id, $player_id]);
@@ -52,5 +53,5 @@ function tirer($grille, $x, $y)
 }
 
 $matrice = creerMatrice(10);
-$matrice = placer($pdo, $matrice, 1, 1); 
+$matrice = placer($pdo, $matrice, 1, 1);
 $matrice = tirer($matrice, 2, 3);
