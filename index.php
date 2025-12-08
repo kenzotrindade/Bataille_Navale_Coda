@@ -65,21 +65,21 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
         $message = "Touché !";
 
         foreach ($bateaux as $bateau) {
-            $bx = $bateau['start_x'];
-            $by = $bateau['start_y'];
+            $bateau_x = $bateau['start_x'];
+            $bateau_y = $bateau['start_y'];
             $size = $bateau['size'];
-            $ori = $bateau['orientation'];
+            $orientation = $bateau['orientation'];
             $touche_trouve = false;
 
 
-            if ($ori == "horizontale") {
+            if ($orientation == "horizontale") {
 
-                if ($y == $by && $x >= $bx && $x < ($bx + $size)) {
+                if ($y == $bateau_y && $x >= $bateau_x && $x < ($bateau_x + $size)) {
                     $touche_trouve = true;
                 }
-            } elseif ($ori == "verticale") {
+            } elseif ($orientation == "verticale") {
 
-                if ($x == $bx && $y >= $by && $y < ($by + $size)) {
+                if ($x == $bateau_x && $y >= $bateau_y && $y < ($bateau_y + $size)) {
                     $touche_trouve = true;
                 }
             }

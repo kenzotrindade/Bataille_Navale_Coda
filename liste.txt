@@ -1,20 +1,21 @@
 Front-end :
 Bouton single player / Mulitplayer
 thème
-faire le style de la grille de matrice
+affichage dynamique de la partie (point, bateaux restant, timer, bateaux couler)
 
 
 Back-end : 
-configurer la liaison php/DB
+link GUI -> Joueur -> Partie
 (Potentiellement coupler JS/PHP pour les requetes on click)
 Héberger sur un serv pour le Mulitplayer
 backend structure + POO + Héritage + Polymorphisme
 gerer un synchro sleep en premier et apres essayer de faire en temps réel
 faire la fonction toucher couler qui vérifie les 4 cases en croix autour si elles sont toutes différentes du chiffre toucher alors : Couler sinon toucher !
-
+2 joueurs pour lancer
+Ne peut pas etre J1 et J2
+Gerer la fin de partie et exceptions
 
 
 
 DB : 
-creer une db : Maria/Postgre
-mettre la matrice 
+Railler le bateau une fois couler de la DB
