@@ -13,23 +13,25 @@ function creerMatrice($taille)
 
 $matrice = creerMatrice($tailleMatrice);
 
-$game_id_test = 1;
-$player_id_test = 1;
+function placer($pdo, $grille, $game_id, $player_id){
+    $sql = "SELECT * FROM ships WHERE game_id = ? AND player_id = ?";
+    $query = $pdo->prepare($sql);
+    $query->execute([$game_id, $player_id]);
+    $bateaux = $query->fetchAll(PDO::FETCH_ASSOC);
 
-
-$sql = "SELECT * FROM ships WHERE game_id = ? AND player_id = ?";
-$query = $pdo->prepare($sql);
-$query->execute([$game_id_test, $player_id_test]);
-$bateaux = $query->fetchAll(PDO::FETCH_ASSOC);
-
-function placer($grille, $taille, $depart_x, $depart_y, $direction)
-{
     foreach ($bateaux as $bateau) {
+
+        $x = $bateau['start_x'];
+        $y = $bateau['start_y'];
+        $taille = $bateau['size'];
+        $direction = $bateau['orientation'];
+
+
         for ($i = 0; $i < $taille; $i++) {
             if ($direction == "horizontale") {
-                $grille[$depart_y][$depart_x + $i] = $taille;
+                $grille[$y][$x + $i] = $taille;
             } elseif ($direction == "verticale") {
-                $grille[$depart_y + $i][$depart_x] = $taille;
+                $grille[$y + $i][$x] = $taille;
             } else {
                 echo "Veuillez entrer une direction valide !";
                 break;
@@ -49,6 +51,6 @@ function tirer($grille, $x, $y)
     return $grille;
 }
 
-$matrice = placer($matrice, 3, 2, 3, "horizontale");
-var_dump($matrice);
+$matrice = creerMatrice(10);
+$matrice = placer($pdo, $matrice, 1, 1); 
 $matrice = tirer($matrice, 2, 3);
