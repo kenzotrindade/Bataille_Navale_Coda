@@ -1,18 +1,20 @@
 <?php
 
-require "/../data/test_db.php";
+require "../data/test_db.php";
 
 $matrice = array_fill(0, 10, array_fill(0, 10, 0));
 
 $tailleMatrice = isset($_POST["tailleMatrice"]) ? (int)$_POST["tailleMatrice"] : 10;
 
-function creerMatrice($taille){
+function creerMatrice($taille)
+{
     return array_fill(0, $taille, array_fill(0, $taille, 0));
 }
 
 $matrice = creerMatrice($tailleMatrice);
 
-function recup($pdo, $game_id, $player_id){
+function recup($pdo, $game_id, $player_id)
+{
     $sql = "SELECT * FROM ships WHERE game_id = ? AND player_id = ?";
     $query = $pdo->prepare($sql);
     $query->execute([$game_id, $player_id]);
@@ -21,9 +23,10 @@ function recup($pdo, $game_id, $player_id){
     return $bateaux;
 }
 
-function placer($pdo, $grille, $game_id, $player_id){
+function placer($pdo, $grille, $game_id, $player_id)
+{
 
-    $bateaux = recup($pdo,$game_id,$player_id);
+    $bateaux = recup($pdo, $game_id, $player_id);
 
     foreach ($bateaux as $bateau) {
 
@@ -46,9 +49,10 @@ function placer($pdo, $grille, $game_id, $player_id){
     return $grille;
 }
 
-function tirer($pdo, $game_id, $player_id, $grille, $x, $y){
+function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
+{
 
-    $bateaux = recup($pdo,$game_id,$player_id);
+    $bateaux = recup($pdo, $game_id, $player_id);
 
     $valeur_case = $grille[$y][$x];
     $resultat_env = "";
@@ -83,7 +87,7 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y){
 
             if ($touche_trouve) {
                 $nouveaux_hits = $bateau['hits'] + 1;
-                
+
 
                 $upd = $pdo->prepare("UPDATE ships SET hits = ? WHERE id = ?");
                 $upd->execute([$nouveaux_hits, $bateau['id']]);
@@ -92,10 +96,9 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y){
                 if ($nouveaux_hits >= $size) {
                     $message = "COULÉ !!!";
                 }
-                break; 
+                break;
             }
         }
-
     } else {
         $grille[$y][$x] = "O";
         $resultat_env = "miss";
