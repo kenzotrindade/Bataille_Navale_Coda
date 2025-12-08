@@ -10,7 +10,7 @@ configurer la liaison php/DB
 Héberger sur un serv pour le Mulitplayer
 backend structure + POO + Héritage + Polymorphisme
 gerer un synchro sleep en premier et apres essayer de faire en temps réel
-
+faire la fonction toucher couler qui vérifie les 4 cases en croix autour si elles sont toutes différentes du chiffre toucher alors : Couler sinon toucher !
 
 
 
