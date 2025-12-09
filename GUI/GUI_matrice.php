@@ -38,7 +38,6 @@ header('refresh:5');
 <body>
   <table>
     <?php
-    require_once("../index.php");
     for ($i = 0; $i < $tailleMatrice; $i++) {
       echo "<tr>";
       for ($j = 0; $j < $tailleMatrice; $j++) {
