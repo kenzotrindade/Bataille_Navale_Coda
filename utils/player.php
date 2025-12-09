@@ -8,6 +8,8 @@ if (!file_exists($fichier)) {
   file_put_contents($fichier, json_encode([
     "j1" => null,
     "j2" => null,
+    "j1_session_id" => null,
+    "j2_session_id" => null,
     "taille_finale" => null
   ]));
 }
@@ -22,6 +24,8 @@ function save_state($file, $data)
 if (isset($_POST["reset_total"])) {
 
   save_state($fichier, [
+    "j1_session_id" => null,
+    "j2_session_id" => null,
     "j1" => null,
     "j2" => null,
     "taille_finale" => null
@@ -35,34 +39,34 @@ if (isset($_POST["reset_total"])) {
   exit;
 }
 
-if ($etat["j1"] === $current_session_id) {
+if ($etat["j1_session_id"] === $current_session_id) {
   $_SESSION["role"] = "Joueur 1";
-} elseif ($etat["j2"] === $current_session_id) {
+} elseif ($etat["j2_session_id"] === $current_session_id) {
   $_SESSION["role"] = "Joueur 2";
 } else {
   unset($_SESSION["role"]);
 }
 
-if (isset($_POST["joueur1"]) && $etat["j1"] === null) {
-  $etat["j1"] = $current_session_id;
+if (isset($_POST["joueur1"]) && $etat["j1_session_id"] === null) {
+  $etat["j1_session_id"] = $current_session_id;
   $_SESSION["role"] = "Joueur 1";
   save_state($fichier, $etat);
   header("Location: player.php");
   exit;
 }
 
-if (isset($_POST["joueur2"]) && $etat["j2"] === null) {
-  $etat["j2"] = $current_session_id;
+if (isset($_POST["joueur2"]) && $etat["j2_session_id"] === null) {
+  $etat["j2_session_id"] = $current_session_id;
   $_SESSION["role"] = "Joueur 2";
   save_state($fichier, $etat);
   header("Location: player.php");
   exit;
 }
 
-$is_player = ($etat["j1"] === $current_session_id || $etat["j2"] === $current_session_id);
+$is_player = ($etat["j1_session_id"] === $current_session_id || $etat["j2_session_id"] === $current_session_id);
 
 if ($is_player) {
-  if ($etat["j1"] !== null && $etat["j2"] !== null) {
+  if ($etat["j1_session_id"] !== null && $etat["j2_session_id"] !== null) {
     header("Location: choix_taille.php");
     exit;
   }
@@ -92,15 +96,15 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
   <h2>Votre rôle : <strong><?= $role ?></strong></h2>
 
   <p>
-    Joueur 1 : <?= $etat["j1"] ? "🟢 Occupé" : "🔴 Libre" ?><br>
-    Joueur 2 : <?= $etat["j2"] ? "🟢 Occupé" : "🔴 Libre" ?>
+    Joueur 1 : <?= $etat["j1_session_id"] ? "🟢 Occupé" : "🔴 Libre" ?><br>
+    Joueur 2 : <?= $etat["j2_session_id"] ? "🟢 Occupé" : "🔴 Libre" ?>
   </p>
 
   <form method="post">
 
     <?php
-    $disableJ1 = $etat["j1"] ? "disabled" : "";
-    $disableJ2 = $etat["j2"] ? "disabled" : "";
+    $disableJ1 = $etat["j1_session_id"] ? "disabled" : "";
+    $disableJ2 = $etat["j2_session_id"] ? "disabled" : "";
 
     if ($is_player) {
       $disableJ1 = "disabled";

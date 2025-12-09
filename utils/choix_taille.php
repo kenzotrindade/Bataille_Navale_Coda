@@ -1,12 +1,15 @@
 <?php
 session_start();
 
+require_once("../data/DB.php");
 $fichier = "../data/config.json";
 
 if (!file_exists($fichier)) {
   file_put_contents($fichier, json_encode([
     "j1" => null,
     "j2" => null,
+    "j1_session_id" => null,
+    "j2_session_id" => null,
     "taille_finale" => null
   ]));
 }
@@ -19,19 +22,25 @@ function save_state($file, $data)
 }
 
 if ($etat["taille_finale"] !== null) {
-  header("Location: ../GUI/GUI_matrice.php");
+  if (isset($_SESSION['game_id']) && isset($_SESSION['user_id'])) {
+    header("Location: ../GUI/GUI_matrice.php");
+  } else {
+    header("Location: player.php");
+  }
   exit;
 }
 
-if ($etat["j1"] === null || $etat["j2"] === null) {
+if ($etat["j1_session_id"] === null || $etat["j2_session_id"] === null) {
   header("Location: player.php");
   exit;
 }
 
 if (!isset($_SESSION["role"])) {
-  if ($etat["j1"] === session_id()) {
+  $current_session_id = session_id();
+
+  if ($etat["j1_session_id"] === $current_session_id) {
     $_SESSION["role"] = "Joueur 1";
-  } elseif ($etat["j2"] === session_id()) {
+  } elseif ($etat["j2_session_id"] === $current_session_id) {
     $_SESSION["role"] = "Joueur 2";
   } else {
     header("Location: player.php");
@@ -60,12 +69,32 @@ if (is_numeric($etat["j1"]) && is_numeric($etat["j2"]) && $etat["taille_finale"]
   $tailles = [(int)$etat["j1"], (int)$etat["j2"]];
 
   $index_choisi = array_rand($tailles);
+  $taille_choisi = $tailles[$index_choisi];
 
-  $etat["taille_finale"] = $tailles[$index_choisi];
-
+  $etat["taille_finale"] = $taille_choisi;
   save_state($fichier, $etat);
 
-  header("Location: ../GUI/GUI_matrice.php");
+  $stmt = $pdo->prepare("INSERT INTO games (board_size, status) VALUES (?, 'placement')");
+  $stmt->execute([$taille_choisi]);
+  $game_id = $pdo->lastInsertId();
+  $_SESSION['game_id'] = $game_id;
+
+  $stmt = $pdo->prepare("INSERT INTO players (session_id, game_id, player_number) VALUES (?, ?, 1)");
+  $stmt->execute([$etat["j1_session_id"], $game_id]);
+  $p1_id = $pdo->lastInsertId();
+
+  $stmt = $pdo->prepare("INSERT INTO players (session_id, game_id, player_number) VALUES (?, ?, 2)");
+  $stmt->execute([$etat["j2_session_id"], $game_id]);
+  $p2_id = $pdo->lastInsertId();
+
+  $stmt = $pdo->prepare("UPDATE games SET player1_id = ?, player2_id = ? WHERE id = ?");
+  $stmt->execute([$p1_id, $p2_id, $game_id]);
+
+
+  $current_player_id = ($_SESSION['role'] === 'Joueur 1') ? $p1_id : $p2_id;
+  $_SESSION['user_id'] = $current_player_id;
+
+  header("Location: placement.php");
   exit;
 }
 
