@@ -9,19 +9,19 @@ if (!file_exists($fichier)) {
 
 $etat = json_decode(file_get_contents($fichier), true);
 
-if (empty($etat['taille_finale']) || $etat['j1'] === null || $etat['j2'] === null) {
-  header("Location: ../utils/player.php");
-  exit;
-}
-
 if (empty($etat['taille_finale'])) {
   header("Location: ../utils/choix_taille.php");
   exit;
 }
 
-$tailleMatrice = (int)$etat['taille_finale'];
+if ($etat['j1'] === null || $etat['j2'] === null) {
+  header("Location: ../utils/player.php");
+  exit;
+}
 
-require_once(__DIR__ . "/../index.php");
+$tailleMatrice = (int) $etat['taille_finale'];
+
+require_once("../index.php");
 header('refresh:5');
 ?>
 
@@ -72,11 +72,14 @@ header('refresh:5');
   <script>
     function confirmAbandon() {
       if (confirm("Voulez-vous vraiment abandonner la partie ? Cela mettra fin au jeu pour les deux joueurs.")) {
+
         let form = document.getElementById("abandonForm");
         let input = document.createElement("input");
+
         input.type = "hidden";
         input.name = "reset_total";
         input.value = "1";
+
         form.appendChild(input);
         form.submit();
       }

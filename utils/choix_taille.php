@@ -40,10 +40,10 @@ if (!isset($_SESSION["role"])) {
 }
 
 if (isset($_POST["taille"])) {
-  $taille = (int)$_POST["taille"];
+  $taille = (int) $_POST["taille"];
 
   if ($taille < 10 || $taille > 20 || $taille % 2 !== 0) {
-    $error = "La taille doit être pair entre 10 et 20";
+    $error = "La taille doit être pair & entre 10 et 20";
   } else {
     $role = $_SESSION["role"] ?? "Non défini";
     if ($role === "Joueur 1") {
@@ -82,9 +82,7 @@ header('refresh:5');
 </head>
 
 <body>
-  <h1>Bonjour <?= $_SESSION["role"] ?? "Invité" ?></h1>
-
-  <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+  <h1>Bonjour <?= $_SESSION["role"] ?></h1>
 
   <form method="post">
     <label>Proposez la taille de la grille (pair entre 10 et 20) :</label>
