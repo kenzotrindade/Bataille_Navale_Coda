@@ -1,20 +1,13 @@
 Front-end :
-Bouton single player / Mulitplayer
-thème
+Bouton single player / Mulitplayer (single a voir si on a le temps)
 affichage dynamique de la partie (point, bateaux restant, timer, bateaux couler)
 Faire système de thème à choisir
 Bouton "Annuler" à la place de reset + bouton FF avec confirmation ( en game )
 
 
 Back-end : 
-link GUI -> Joueur -> Partie
-(Potentiellement coupler JS/PHP pour les requetes on click)
-Héberger sur un serv pour le Mulitplayer
-backend structure + POO + Héritage + Polymorphisme
-gerer un synchro sleep en premier et apres essayer de faire en temps réel
-faire la fonction toucher couler qui vérifie les 4 cases en croix autour si elles sont toutes différentes du chiffre toucher alors : Couler sinon toucher !
-2 joueurs pour lancer
-Ne peut pas etre J1 et J2
+link GUI -> Joueur -> Partie (en partie fait)
+backend structure + POO + Héritage + Polymorphisme (essayer pour le player)
 Gerer la fin de partie et exceptions
 Faire système de choix de taille avec mise en accord sinon -> coinflip
 
