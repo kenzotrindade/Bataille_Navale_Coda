@@ -23,6 +23,26 @@ function recup($pdo, $game_id, $player_id)
     return $bateaux;
 }
 
+function recuperer_id_adversaire($pdo, $game_id, $mon_id) {
+
+    $sql = "SELECT player1_id, player2_id FROM games WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$game_id]);
+    $partie = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$partie) {
+        die("Erreur : Partie introuvable.");
+    }
+
+    if ($mon_id == $partie['player1_id']) {
+        return $partie['player2_id'];
+    } elseif ($mon_id == $partie['player2_id']) {
+        return $partie['player1_id'];
+    } else {
+        die("Erreur : Vous ne participez pas à cette partie !");
+    }
+}
+
 function placer($pdo, $grille, $game_id, $player_id)
 {
 
@@ -49,10 +69,10 @@ function placer($pdo, $grille, $game_id, $player_id)
     return $grille;
 }
 
-function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
+function tirer($pdo, $game_id, $player_id,$adversaire_id, $grille, $x, $y)
 {
 
-    $bateaux = recup($pdo, $game_id, $player_id);
+    $bateaux = recup($pdo, $game_id, $adversaire_id);
 
     $valeur_case = $grille[$y][$x];
     $resultat_env = "";
@@ -105,9 +125,15 @@ function tirer($pdo, $game_id, $player_id, $grille, $x, $y)
         $message = "Plouf !";
     }
 
+    echo "$message";
+
     $sql = "INSERT INTO shots (game_id, player_id, x, y, result) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$game_id, $player_id, $x, $y, $resultat_env]);
 
     return $grille;
 }
+
+// $adversaire_id = recuperer_id_adversaire($pdo, $game_id, $mon_id);
+// $mon_id = $_SESSION['user_id']; 
+// $game_id = $_SESSION['game_id'];
