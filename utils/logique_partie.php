@@ -82,9 +82,9 @@ function placer_epave($pdo, $grille, $game_id, $adversaire_id)
             $direction = $bateau['orientation'];
 
             for ($i = 0; $i < $taille; $i++) {
-                if ($direction == "horizontale") {
-                    $grille[$y][$x + $i] = "EPAVE";
-                } elseif ($direction == "verticale") {
+                if ($direction == "H") {
+                    $grille[$y][$x + $i] = "EPAVE"; 
+                } elseif ($direction == "V") {
                     $grille[$y + $i][$x] = "EPAVE";
                 }
             }

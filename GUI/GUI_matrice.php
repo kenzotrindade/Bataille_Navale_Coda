@@ -50,8 +50,8 @@ $grille_defense = placer($pdo, $grille_defense, $game_id, $mon_id);
 $grille_defense = recuperer_historique_tirs($pdo, $game_id, $adversaire_id, $grille_defense);
 
 $grille_attaque = creerMatrice($tailleMatrice);
-$grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id); 
 $grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque); 
+$grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id); 
 
 
 header('refresh:5');
