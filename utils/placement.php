@@ -1,16 +1,18 @@
 <?php
 session_start();
-$tailleMatrice = isset($_SESSION['taille_grille']) ? $_SESSION['taille_grille'] : 10;
+$tailleMatrice = $_SESSION['taille_grille'];
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Placement des navires</title>
     <link rel="stylesheet" href="../GUI/CSS/placement.css">
 </head>
+
 <body>
     <style>
         .grid-container {
@@ -18,7 +20,7 @@ $tailleMatrice = isset($_SESSION['taille_grille']) ? $_SESSION['taille_grille'] 
             grid-template-columns: repeat(<?= $tailleMatrice ?>, 40px);
             grid-template-rows: repeat(<?= $tailleMatrice ?>, 40px);
             gap: 1px;
-            background-color: #333; 
+            background-color: #333;
             border: 5px solid #333;
         }
     </style>
@@ -71,7 +73,16 @@ $tailleMatrice = isset($_SESSION['taille_grille']) ? $_SESSION['taille_grille'] 
         </div>
     </div>
 
+    <div>
+        <a href="reset.php">
+            <button>
+                ANNULER LA PARTIE (Debug)
+            </button>
+        </a>
+    </div>
+
     <script src="../GUI/JS/drag_drop.js"></script>
 
 </body>
+
 </html>

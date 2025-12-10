@@ -117,7 +117,13 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
 
     <br><br>
 
-    <button type="submit" name="reset_total">❌ Reset total</button>
+    <div>
+      <a href="reset.php">
+        <button>
+          ANNULER LA PARTIE (Debug)
+        </button>
+      </a>
+    </div>
 
   </form>
 

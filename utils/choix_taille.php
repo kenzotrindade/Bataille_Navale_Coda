@@ -22,8 +22,48 @@ function save_state($file, $data)
 }
 
 if ($etat["taille_finale"] !== null) {
+  if (!isset($_SESSION['game_id']) || !isset($_SESSION['user_id'])) {
+
+    unset($_SESSION['game_id']);
+    unset($_SESSION['user_id']);
+    unset($_SESSION['taille_grille']);
+
+    $current_session_id = session_id();
+
+    $stmt_player = $pdo->prepare("SELECT id, game_id FROM players WHERE session_id = ? ORDER BY id DESC LIMIT 1");
+    $stmt_player->execute([$current_session_id]);
+    $player_data = $stmt_player->fetch(PDO::FETCH_ASSOC);
+
+    if ($player_data) {
+      $game_id = $player_data['game_id'];
+
+      $stmt_game = $pdo->prepare("SELECT id, board_size FROM games WHERE id = ?");
+      $stmt_game->execute([$game_id]);
+      $game_data = $stmt_game->fetch(PDO::FETCH_ASSOC);
+
+      if ($game_data) {
+        $_SESSION['game_id'] = $game_id;
+        $_SESSION['user_id'] = $player_data['id'];
+        $_SESSION['taille_grille'] = $game_data['board_size'];
+
+        header("Location: placement.php");
+        exit;
+      }
+    }
+  }
+
   if (isset($_SESSION['game_id']) && isset($_SESSION['user_id'])) {
-    header("Location: ../GUI/GUI_matrice.php");
+    $stmt_status = $pdo->prepare("SELECT status FROM games WHERE id = ?");
+    $stmt_status->execute([$_SESSION['game_id']]);
+    $game_status = $stmt_status->fetchColumn();
+
+    if ($game_status === 'placement') {
+      header("Location: placement.php");
+    } elseif ($game_status === 'in_progress' || $game_status === 'finished') {
+      header("Location: ../GUI/GUI_matrice.php");
+    } else {
+      header("Location: player.php");
+    }
   } else {
     header("Location: player.php");
   }
@@ -90,9 +130,9 @@ if (is_numeric($etat["j1"]) && is_numeric($etat["j2"]) && $etat["taille_finale"]
   $stmt = $pdo->prepare("UPDATE games SET player1_id = ?, player2_id = ? WHERE id = ?");
   $stmt->execute([$p1_id, $p2_id, $game_id]);
 
-
   $current_player_id = ($_SESSION['role'] === 'Joueur 1') ? $p1_id : $p2_id;
   $_SESSION['user_id'] = $current_player_id;
+  $_SESSION['taille_grille'] = $taille_choisi;
 
   header("Location: placement.php");
   exit;
@@ -123,6 +163,14 @@ header('refresh:5');
     Joueur 1 : <?= (is_numeric($etat["j1"]) ? $etat["j1"] : "En attente") ?><br>
     Joueur 2 : <?= (is_numeric($etat["j2"]) ? $etat["j2"] : "En attente") ?>
   </p>
+
+  <div>
+    <a href="reset.php">
+      <button>
+        ANNULER LA PARTIE (Debug)
+      </button>
+    </a>
+  </div>
 </body>
 
 </html>
