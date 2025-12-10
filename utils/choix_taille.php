@@ -165,7 +165,11 @@ $role = $_SESSION["role"] ?? "Non défini";
   <title>Choix taille</title>
 </head>
 
-<body>
+<?php
+$theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
+?>
+
+<body class="<?= htmlspecialchars($theme) ?>-theme">
 
   <div class="game-lobby">
     <div class="player-info">

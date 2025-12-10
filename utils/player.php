@@ -95,7 +95,11 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
   <title>Connexion au jeu</title>
 </head>
 
-<body class="classic-theme">
+<?php
+$theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
+?>
+
+<body class="<?= htmlspecialchars($theme) ?>-theme">
 
   <div class="main-menu-container">
     <h1>BATAILLE NAVALE</h1>
@@ -151,6 +155,7 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
       document.body.className = '';
       document.body.classList.add(theme + '-theme');
       localStorage.setItem('gameTheme', theme);
+      document.cookie = `gameTheme=${theme}; path=/; max-age=31536000`;
     }
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';

@@ -1,18 +1,18 @@
 <?php
 session_start();
 require_once("../data/DB.php");
-require_once("../utils/logique_partie.php"); 
+require_once("../utils/logique_partie.php");
 
 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
-    header("Location: ../utils/player.php");
-    exit;
+  header("Location: ../utils/player.php");
+  exit;
 }
 
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
 $adversaire_id = recuperer_id_adversaire($pdo, $game_id, $mon_id);
-$tailleMatrice = isset($_SESSION['taille_grille']) ? $_SESSION['taille_grille'] : 10;
+$tailleMatrice = isset($_SESSION['taille_grille']);
 
 $stmt = $pdo->prepare("SELECT current_player FROM games WHERE id = ?");
 $stmt->execute([$game_id]);
@@ -20,25 +20,25 @@ $id_joueur_actif = $stmt->fetchColumn();
 
 if (isset($_GET['x']) && isset($_GET['y'])) {
 
-  if ($mon_id != $id_joueur_actif){
+  if ($mon_id != $id_joueur_actif) {
     header("Location: GUI_matrice.php");
     exit;
   }
 
-    $tir_x = (int)$_GET['x'];
-    $tir_y = (int)$_GET['y'];
-    tirer($pdo, $game_id, $mon_id, $adversaire_id, $tir_x, $tir_y);
+  $tir_x = (int)$_GET['x'];
+  $tir_y = (int)$_GET['y'];
+  tirer($pdo, $game_id, $mon_id, $adversaire_id, $tir_x, $tir_y);
 
-    $stmt = $pdo->prepare("UPDATE games SET current_player = ? WHERE id = ?");
-    $stmt->execute([$adversaire_id, $game_id]);
-    header("Location: GUI_matrice.php");
-    exit;
+  $stmt = $pdo->prepare("UPDATE games SET current_player = ? WHERE id = ?");
+  $stmt->execute([$adversaire_id, $game_id]);
+  header("Location: GUI_matrice.php");
+  exit;
 }
 
 $mon_tour = false;
-if ($mon_id == $id_joueur_actif){
+if ($mon_id == $id_joueur_actif) {
   $mon_tour = true;
-} else{
+} else {
   $mon_tour = false;
 }
 
@@ -50,8 +50,8 @@ $grille_defense = placer($pdo, $grille_defense, $game_id, $mon_id);
 $grille_defense = recuperer_historique_tirs($pdo, $game_id, $adversaire_id, $grille_defense);
 
 $grille_attaque = creerMatrice($tailleMatrice);
-$grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque); 
-$grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id); 
+$grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque);
+$grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
 
 header('refresh:5');
@@ -59,6 +59,7 @@ header('refresh:5');
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="CSS/style.css">
@@ -68,67 +69,67 @@ header('refresh:5');
 
 <body>
 
-<div class="game-container">
-  <h1><?=$message?></h1>
+  <div class="game-container">
+    <h1><?= $message ?></h1>
 
     <div class="board-defense">
-        <h2 class="board-title">Ma Flotte</h2>
-        <table>
-            <?php
-            for ($i = 0; $i < $tailleMatrice; $i++) {
-                echo "<tr>";
-                for ($j = 0; $j < $tailleMatrice; $j++) {
-                    $valeur = $grille_defense[$i][$j];
-                    
-                    if ($valeur === "X") $c = "touche";
-                    elseif ($valeur === "O") $c = "plouf";
-                    elseif ($valeur != 0 && $valeur != "EPAVE") $c = "bateau"; 
-                    else $c = "vide";
+      <h2 class="board-title">Ma Flotte</h2>
+      <table>
+        <?php
+        for ($i = 0; $i < $tailleMatrice; $i++) {
+          echo "<tr>";
+          for ($j = 0; $j < $tailleMatrice; $j++) {
+            $valeur = $grille_defense[$i][$j];
 
-                    echo "<td class='$c'></td>";
-                }
-                echo "</tr>";
-            }
-            ?>
-        </table>
+            if ($valeur === "X") $c = "touche";
+            elseif ($valeur === "O") $c = "plouf";
+            elseif ($valeur != 0 && $valeur != "EPAVE") $c = "bateau";
+            else $c = "vide";
+
+            echo "<td class='$c'></td>";
+          }
+          echo "</tr>";
+        }
+        ?>
+      </table>
     </div>
 
     <div class="board-attack <?= $classe ?>">
-        <h2 class="board-title">Radar de Tir</h2>
-        <table>
-            <?php
-            for ($i = 0; $i < $tailleMatrice; $i++) {
-                echo "<tr>";
-                for ($j = 0; $j < $tailleMatrice; $j++) {
-                    $valeur = $grille_attaque[$i][$j];
-                    
+      <h2 class="board-title">Radar de Tir</h2>
+      <table>
+        <?php
+        for ($i = 0; $i < $tailleMatrice; $i++) {
+          echo "<tr>";
+          for ($j = 0; $j < $tailleMatrice; $j++) {
+            $valeur = $grille_attaque[$i][$j];
 
-                    if ($valeur === "X") $c = "touche";
-                    elseif ($valeur === "O") $c = "plouf";
-                    elseif ($valeur === "EPAVE") $c = "epave"; 
-                    else $c = "vide";
 
-                    $js = "";
-                    if ($valeur !== "X" && $valeur !== "O") {
-                        $c .= " clickable";
-                        $js = "data-x='$j' data-y='$i'";
-                    }
+            if ($valeur === "X") $c = "touche";
+            elseif ($valeur === "O") $c = "plouf";
+            elseif ($valeur === "EPAVE") $c = "epave";
+            else $c = "vide";
 
-                    echo "<td class='$c' $js></td>";
-                }
-                echo "</tr>";
+            $js = "";
+            if ($valeur !== "X" && $valeur !== "O") {
+              $c .= " clickable";
+              $js = "data-x='$j' data-y='$i'";
             }
-            ?>
-        </table>
+
+            echo "<td class='$c' $js></td>";
+          }
+          echo "</tr>";
+        }
+        ?>
+      </table>
     </div>
 
-</div>
+  </div>
 
-<form method="post" id="abandonForm" action="../utils/player.php" style="text-align:center; margin-top:20px;">
+  <form method="post" id="abandonForm" action="../utils/player.php" style="text-align:center; margin-top:20px;">
     <button type="button" onclick="confirmAbandon()">❌ Abandonner la partie</button>
-</form>
+  </form>
 
-<script>
+  <script>
     function confirmAbandon() {
       if (confirm("Voulez-vous vraiment abandonner ?")) {
         let form = document.getElementById("abandonForm");
@@ -140,9 +141,10 @@ header('refresh:5');
         form.submit();
       }
     }
-</script>
+  </script>
 
-<script src="JS/index.js"></script>
+  <script src="JS/index.js"></script>
 
 </body>
+
 </html>
