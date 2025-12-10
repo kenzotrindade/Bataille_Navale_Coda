@@ -1,15 +1,9 @@
 Front-end :
-Bouton single player / Mulitplayer (single a voir si on a le temps)
-affichage dynamique de la partie (point, bateaux restant, timer, bateaux couler)
-Faire système de thème à choisir
-Bouton "Annuler" à la place de reset + bouton FF avec confirmation ( en game )
+
 
 
 Back-end : 
-link GUI -> Joueur -> Partie (en partie fait)
-backend structure + POO + Héritage + Polymorphisme (essayer pour le player)
-Gerer la fin de partie et exceptions
-Faire système de choix de taille avec mise en accord sinon -> coinflip
+Faire système de choix de taille avec mise en accord sinon -> coinflip (en parti terminer)
 
 
 
@@ -17,8 +11,8 @@ DB :
 Railler le bateau une fois couler de la DB
 
 
-todo : En fonction de la taille de la grille rajouté un deuxième torpilleur (2 cases de long) une fois que la taille >= 15
-todo : faire en sorte que quand on passe le placement en verticale dans les docks les bateaux restants a placer se mettent aussi en vertical
+todo : En fonction de la taille de la grille rajouté un deuxième torpilleur (2 cases de long) une fois que la taille >= 15 (euuuuhh plus enzo stp tu t'es pas rendu de compte de ce que donne du 20x20)
+todo : Faire un script qui crée la DB universelle pour n'importe quel pc.
 
 
 

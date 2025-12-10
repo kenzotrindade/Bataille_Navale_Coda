@@ -4,10 +4,10 @@ require_once("../data/DB.php");
 require_once("../utils/logique_partie.php");
 
 
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
-  header("Location: ../utils/player.php");
-  exit;
-}
+// if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
+//   header("Location: ../utils/player.php");
+//   exit;
+// }
 
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
@@ -62,10 +62,9 @@ $grille_attaque = creerMatrice($tailleMatrice);
 $grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque);
 $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
-// Récupérer le thème
 $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
-header('refresh:5');
+// header('refresh:5');
 ?>
 
 <!DOCTYPE html>
@@ -85,9 +84,9 @@ header('refresh:5');
 </head>
 
 <body class="<?= htmlspecialchars($theme) ?>-theme">
+  <h1><?= $message ?></h1>
 
   <div class="game-container">
-    <h1><?= $message ?></h1>
 
     <div class="board-defense">
       <h2 class="board-title">Ma Flotte</h2>
