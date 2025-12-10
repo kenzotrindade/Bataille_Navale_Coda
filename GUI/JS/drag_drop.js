@@ -6,6 +6,8 @@ let draggedShipId = null;
 
 const cells = document.querySelectorAll(".cell");
 const btnRotate = document.getElementById("rotateBtn");
+const allShips = document.querySelectorAll(".ship");
+const btnValider = document.getElementById("validateBtn");
 
 function getCasesCibles(x, y, taille, orientation) {
   let cellules = [];
@@ -154,9 +156,41 @@ btnRotate.addEventListener("click", () => {
     orientation_ship = "V";
     btnRotate.innerText = "Orientation : VERTICALE";
     btnRotate.style.backgroundColor = "#e91e63";
+
+    allShips.forEach((ship) => {
+      ship.classList.add("verticale");
+    });
   } else {
     orientation_ship = "H";
     btnRotate.innerText = "Orientation : HORIZONTALE";
     btnRotate.style.backgroundColor = "#ff9800";
+
+    allShips.forEach((ship) => {
+      ship.classList.remove("verticale");
+    });
   }
+});
+
+btnValider.addEventListener("click", () => {
+  const dataToSend = JSON.stringify({ ships: placedShips });
+
+  fetch("../data/save_placement.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: dataToSend,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        window.location.href = "../GUI/GUI_matrice.php";
+      } else {
+        alert("Erreur lors de la sauvegarde : " + (data.message || "Inconnue"));
+      }
+    })
+    .catch((error) => {
+      console.error("Erreur:", error);
+      alert("Impossible de contacter le serveur.");
+    });
 });
