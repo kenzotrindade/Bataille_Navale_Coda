@@ -180,11 +180,16 @@ td {
   --color-grille-touche: #ff0000;
   --color-grille-plouf: #004a77;
   --grille-border: 1px solid #00bfff;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="white"/><circle cx="50" cy="70" r="0.5" fill="white"/><circle cx="90" cy="30" r="1.5" fill="white"/><circle cx="30" cy="45" r="0.7" fill="white"/></svg>');
+
+  box-shadow: 100px 100px #fff, 200px 200px 1px #fff, 300px 50px #fff,
+    450px 350px 1px #fff, 600px 150px #fff, 750px 400px #fff,
+    900px 250px 1px #fff, 1050px 300px #fff;
+
+  background-repeat: repeat;
 }
 .starwars-theme .main-menu-container,
 .starwars-theme .game-lobby {
-  background: rgba(10, 10, 10, 0.8);
+  background: rgba(10, 10, 10, 0.9);
   border: 1px solid var(--color-primary);
   box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
   color: var(--color-text);
@@ -192,6 +197,14 @@ td {
 .starwars-theme h1,
 .starwars-theme h2 {
   text-shadow: 0 0 5px var(--color-primary);
+}
+
+.starwars-theme input[type="number"],
+.starwars-theme #theme-select {
+  background-color: #1a1a1a;
+  color: var(--color-text);
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary);
 }
 
 .apoc-theme {

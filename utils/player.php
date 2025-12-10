@@ -95,7 +95,8 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
   <title>Connexion au jeu</title>
 </head>
 
-<body>
+<body class="classic-theme">
+
   <div class="main-menu-container">
     <h1>BATAILLE NAVALE</h1>
 
@@ -151,15 +152,12 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
       document.body.classList.add(theme + '-theme');
       localStorage.setItem('gameTheme', theme);
     }
-
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';
       const themeSelect = document.getElementById('theme-select');
-
-      appliquerTheme(savedTheme);
-
       if (themeSelect) {
         themeSelect.value = savedTheme;
+        appliquerTheme(savedTheme);
       }
     });
   </script>

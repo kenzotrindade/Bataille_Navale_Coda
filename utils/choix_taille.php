@@ -4,6 +4,8 @@ session_start();
 require_once("../data/DB.php");
 $fichier = "../data/config.json";
 
+// ... Code PHP (Logique de jeu) inchangé ...
+
 if (!file_exists($fichier)) {
   file_put_contents($fichier, json_encode([
     "j1" => null,
