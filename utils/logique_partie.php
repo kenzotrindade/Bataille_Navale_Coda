@@ -57,9 +57,9 @@ function placer($pdo, $grille, $game_id, $player_id)
         $direction = $bateau['orientation'];
 
         for ($i = 0; $i < $taille; $i++) {
-            if ($direction == "horizontale") {
+            if ($direction == "H") {
                 $grille[$y][$x + $i] = $taille;
-            } elseif ($direction == "verticale") {
+            } elseif ($direction == "V") {
                 $grille[$y + $i][$x] = $taille;
             } else {
                 break;
