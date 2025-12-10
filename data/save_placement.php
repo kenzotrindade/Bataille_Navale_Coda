@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'test_db.php';
+require_once 'DB.php';
 
 header('Content-Type: application/json');
 

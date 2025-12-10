@@ -7,7 +7,6 @@ $pass = '1234';
 
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-  echo "Connexion OK";
 } catch (Exception $e) {
   die('Erreur : ' . $e->getMessage());
 }
