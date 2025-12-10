@@ -45,15 +45,6 @@ Bouton pour retourner au menu ou "Revanche".
 
 
 
-
-
-🔌 Phase 1 : Connexion Lobby → SQL
-[ ] Modifier choix_taille.php :
-[ ] Insérer les joueurs dans la table players.
-[ ] Créer la partie dans la table games.
-[ ] Stocker les vrais ID (SQL) en $_SESSION.
-[ ] Rediriger vers placement.php (au lieu de la grille).
-
 ⚔️ Phase 3 : Le Combat (Double Grille)
 [ ] Modifier GUI_matrice.php :
 [ ] Grille Défense (Gauche) : Afficher mes bateaux + tirs reçus.
@@ -65,3 +56,4 @@ Bouton pour retourner au menu ou "Revanche".
 [ ] Après un tir, vérifier si tous les bateaux adverses sont coulés.
 [ ] Si oui, update games status = 'finished'.
 [ ] Afficher "Gagné" ou "Perdu".
+[ ] Faire un script qui crée la DB universelle pour n'importe quel pc.
