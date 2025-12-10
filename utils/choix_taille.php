@@ -163,7 +163,7 @@ $role = $_SESSION["role"] ?? "Non défini";
   <title>Choix taille</title>
 </head>
 
-<body class="classic-theme">
+<body>
 
   <div class="game-lobby">
     <div class="player-info">
@@ -207,20 +207,8 @@ $role = $_SESSION["role"] ?? "Non défini";
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';
-      document.body.className = '';
-      document.body.classList.add(savedTheme + '-theme');
-    });
-    (function() {
-      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
-      document.documentElement.className = '';
       document.body.className = savedTheme + '-theme';
-
-      window.appliquerTheme = function(theme) {
-        document.body.className = '';
-        document.body.classList.add(theme + '-theme');
-        localStorage.setItem('gameTheme', theme);
-      };
-    })();
+    });
   </script>
 </body>
 
