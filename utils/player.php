@@ -160,6 +160,17 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
         appliquerTheme(savedTheme);
       }
     });
+    (function() {
+      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+      document.documentElement.className = '';
+      document.body.className = savedTheme + '-theme';
+
+      window.appliquerTheme = function(theme) {
+        document.body.className = '';
+        document.body.classList.add(theme + '-theme');
+        localStorage.setItem('gameTheme', theme);
+      };
+    })();
   </script>
 </body>
 

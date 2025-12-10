@@ -210,6 +210,17 @@ $role = $_SESSION["role"] ?? "Non défini";
       document.body.className = '';
       document.body.classList.add(savedTheme + '-theme');
     });
+    (function() {
+      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+      document.documentElement.className = '';
+      document.body.className = savedTheme + '-theme';
+
+      window.appliquerTheme = function(theme) {
+        document.body.className = '';
+        document.body.classList.add(theme + '-theme');
+        localStorage.setItem('gameTheme', theme);
+      };
+    })();
   </script>
 </body>
 
