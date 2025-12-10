@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
 $adversaire_id = recuperer_id_adversaire($pdo, $game_id, $mon_id);
-$tailleMatrice = isset($_SESSION['taille_grille']) ? $_SESSION['taille_grille'] : 10;
+$tailleMatrice = isset($_SESSION['taille_grille']); // ? $_SESSION['taille_grille'] : 10;
 
 $stmt = $pdo->prepare("SELECT current_player FROM games WHERE id = ?");
 $stmt->execute([$game_id]);

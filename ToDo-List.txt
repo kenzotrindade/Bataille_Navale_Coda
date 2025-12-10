@@ -1,38 +1,3 @@
-Étape 1 : Le Pont "Lobby vers SQL" (Backend)
-Actuellement, tes joueurs sont dans un JSON (config.json) avec des ID de session bizarres. Pour jouer, il faut qu'ils existent dans la base de données.
-Fichier à modifier : choix_taille.php.
-
-À faire : Au moment où la taille est validée :
-
-Faire un INSERT INTO players pour créer les 2 joueurs dans la BDD.
-Faire un INSERT INTO games pour créer la partie.
-Récupérer les vrais ID (1, 2, 15...) générés par SQL.
-Les stocker dans $_SESSION ($_SESSION['user_id'], $_SESSION['game_id']).
-Rediriger vers placement.php (et non plus directement vers la grille de combat).
-
-Étape 4 : La Sauvegarde de la Flotte (Backend)
-Une fois que le joueur clique sur "Valider", il faut envoyer ses choix à la base de données.
-Fichier à créer : data/save_placement.php.
-
-À faire :
-
-Recevoir le JSON envoyé par le JS (liste des bateaux avec x, y, orientation).
-Boucler sur cette liste.
-Faire les INSERT INTO ships pour chaque bateau.
-Rediriger le joueur vers la page de combat (GUI_matrice.php).
-
-Étape 5 : L'Arène de Combat (Frontend & Backend)
-C'est l'assemblage final dans ta page de jeu actuelle. Il faut la transformer pour le multijoueur.
-Fichier à modifier : GUI_matrice.php (ou index.php).
-
-À faire :
-
-Double Grille : Afficher 2 grilles côte à côte (ou une grosse et une petite).
-Grille Défense : Affiche tes bateaux (placer) + les tirs ennemis (recup_historique).
-Grille Attaque : Affiche les épaves ennemies (placer_epave) + tes tirs (recup_historique).
-Logique de Tir : Utiliser ta nouvelle fonction tirer (avec l'ID adversaire) quand on clique sur la grille d'attaque.
-Tour par tour (Bonus) : Vérifier dans la BDD games à qui c'est le tour de jouer avant d'autoriser le tir (optionnel pour la v1 mais conseillé).
-
 Étape 6 : La Fin de Partie (Backend)
 Il faut savoir quand arrêter le massacre.
 
@@ -43,12 +8,6 @@ Si oui, changer le status de la partie dans games vers 'finished'.
 Afficher un écran "VICTOIRE" ou "DÉFAITE".
 Bouton pour retourner au menu ou "Revanche".
 
-
-⚔️ Phase 3 : Le Combat (Double Grille)
-[ ] Modifier GUI_matrice.php :
-[ ] Grille Défense (Gauche) : Afficher mes bateaux + tirs reçus.
-[ ] Grille Attaque (Droite) : Afficher épaves ennemies + mes tirs.
-[ ] Action : Le clic sur la grille d'attaque appelle tirer() avec l'ID de l'adversaire.
 
 🏆 Phase 4 : Fin de Partie
 [ ] Vérification Victoire :
