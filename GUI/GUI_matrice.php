@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
 $adversaire_id = recuperer_id_adversaire($pdo, $game_id, $mon_id);
-$tailleMatrice = isset($_SESSION['taille_grille']);
+$tailleMatrice = $_SESSION['taille_grille'];
 
 $stmt = $pdo->prepare("SELECT current_player FROM games WHERE id = ?");
 $stmt->execute([$game_id]);
@@ -53,6 +53,8 @@ $grille_attaque = creerMatrice($tailleMatrice);
 $grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque);
 $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
+// Récupérer le thème
+$theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
 header('refresh:5');
 ?>
@@ -62,12 +64,18 @@ header('refresh:5');
 
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+      document.documentElement.className = savedTheme + '-theme';
+    })();
+  </script>
   <link rel="stylesheet" href="CSS/style.css">
-  <title>Bataille Navale - Combat</title>
   <link rel="stylesheet" href="./CSS/GUI.css">
+  <title>Bataille Navale - Combat</title>
 </head>
 
-<body>
+<body class="<?= htmlspecialchars($theme) ?>-theme">
 
   <div class="game-container">
     <h1><?= $message ?></h1>
@@ -141,6 +149,12 @@ header('refresh:5');
         form.submit();
       }
     }
+
+    // Maintenir le thème
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+      document.body.className = savedTheme + '-theme';
+    });
   </script>
 
   <script src="JS/index.js"></script>
