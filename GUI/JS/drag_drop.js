@@ -8,8 +8,9 @@ const cells = document.querySelectorAll(".cell");
 const btnRotate = document.getElementById("rotateBtn");
 const allShips = document.querySelectorAll(".ship");
 const btnValider = document.getElementById("validateBtn");
-
-console.log("✅ Test de connexion : " + cells.length + " cases trouvées.");
+const totalShips = parseInt(
+  document.querySelector(".dock-container").dataset.ships
+);
 
 function getCasesCibles(x, y, taille, orientation) {
   let cellules = [];
@@ -137,7 +138,7 @@ cells.forEach((cell) => {
         shipElement.draggable = false;
       }
 
-      if (placedShips.length === 5) {
+      if (placedShips.length === totalShips) {
         const btnValider = document.getElementById("validateBtn");
         btnValider.disabled = false;
         btnValider.style.backgroundColor = "green";

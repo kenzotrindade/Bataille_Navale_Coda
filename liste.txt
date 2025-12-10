@@ -1,21 +1,4 @@
-Front-end :
-
-
-
-Back-end : 
-Faire système de choix de taille avec mise en accord sinon -> coinflip (en parti terminer)
-
-
-
-DB : 
-Railler le bateau une fois couler de la DB
-
-
 todo : En fonction de la taille de la grille rajouté un deuxième torpilleur (2 cases de long) une fois que la taille >= 15 (euuuuhh plus enzo stp tu t'es pas rendu de compte de ce que donne du 20x20)
-todo : Faire un script qui crée la DB universelle pour n'importe quel pc.
-
-
-
 todo : (optionnel) faire en sorte que ca prenne en compte le début de bateau sur la grille et pas seulement mon curseur 
 
 Solution 1 : La méthode "Complexe" (Gérer le décalage)

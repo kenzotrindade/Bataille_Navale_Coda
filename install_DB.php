@@ -1,0 +1,81 @@
+<?php
+
+$host = '127.0.0.1';
+$dbname = 'bataille_navale';
+$user = 'root';
+$pass = '1234';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connexion a la base de donnée OK <br>";
+
+    $dbname = 'bataille_navale';
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
+    echo "La base de donnée nommée : $dbname est prête à être utilisé <br>";
+
+    $pdo->exec("USE $dbname");
+
+    $sql = "
+    SET FOREIGN_KEY_CHECKS = 0;
+
+    DROP TABLE IF EXISTS shots;
+    DROP TABLE IF EXISTS ships;
+    DROP TABLE IF EXISTS players;
+    DROP TABLE IF EXISTS games;
+
+    CREATE TABLE games (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        board_size INT(11) NOT NULL,
+        player1_id INT(11) DEFAULT NULL,
+        player2_id INT(11) DEFAULT NULL,
+        current_player INT(11) DEFAULT NULL,
+        winner_id INT(11) DEFAULT NULL,
+        status VARCHAR(20) NOT NULL DEFAULT 'placement',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE players (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        session_id VARCHAR(255) NOT NULL,
+        game_id INT(11) NOT NULL,
+        player_number INT(11) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE ships (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        game_id INT(11) NOT NULL,
+        player_id INT(11) NOT NULL,
+        type ENUM('carrier','battleship','cruiser','submarine','destroyer') NOT NULL,
+        start_x INT(11) NOT NULL,
+        start_y INT(11) NOT NULL,
+        orientation ENUM('H','V') NOT NULL,
+        size INT(11) NOT NULL,
+        hits INT(11) DEFAULT 0,
+        FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
+        FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE shots (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        game_id INT(11) NOT NULL,
+        player_id INT(11) NOT NULL,
+        x INT(11) NOT NULL,
+        y INT(11) NOT NULL,
+        result ENUM('miss','hit','sunk') NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+    );
+
+    SET FOREIGN_KEY_CHECKS = 1;
+    ";
+    $pdo->exec($sql);
+
+    echo "Les tables ont été crées avec succès !";
+    echo "Installation terminée ! <a href='utils/player.php' target='_blank'> Lancer la partie ! </a>";
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage() . "<br>";
+    echo "Vérifie que MariaDB est bien lancé !";
+}

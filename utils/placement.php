@@ -1,6 +1,21 @@
 <?php
 session_start();
 $tailleMatrice = $_SESSION['taille_grille'];
+
+$totalBateaux = 5;
+
+if ($tailleMatrice >= 12){
+    $totalBateaux++;
+}
+if ($tailleMatrice >= 14){
+    $totalBateaux++;
+}
+if ($tailleMatrice >= 16){
+    $totalBateaux++;
+}
+if ($tailleMatrice >= 18){
+    $totalBateaux++;
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +40,7 @@ $tailleMatrice = $_SESSION['taille_grille'];
         }
     </style>
 
-    <div class="dock-container">
+    <div class="dock-container" data-ships="<?= $totalBateaux ?>">
         <h3>Votre Flotte</h3>
         <p><small>Glissez les navires sur la grille</small></p>
 
@@ -34,15 +49,26 @@ $tailleMatrice = $_SESSION['taille_grille'];
             <div class="ship size-5" draggable="true" data-size="5" data-type="carrier" id="ship-carrier">⚓</div>
         </div>
 
-        <div class="ship-container">
-            <div>Croiser (4)</div>
-            <div class="ship size-4" draggable="true" data-size="4" data-type="battleship" id="ship-cruiser">⚓</div>
-        </div>
+        <?php 
+            if ($tailleMatrice >= 18): ?>
+                <div class="ship-container">
+                    <div>Croiser (4)</div>
+                    <div class="ship size-4" draggable="true" data-size="4" data-type="battleship" id="ship-cruiser_2">⚓</div>
+                </div>
+        <?php endif; ?>
 
         <div class="ship-container">
-            <div>Sous-Marin (3)</div>
-            <div class="ship size-3" draggable="true" data-size="3" data-type="cruiser" id="ship-submarine_1">⚓</div>
+            <div>Croiser (4)</div>
+            <div class="ship size-4" draggable="true" data-size="4" data-type="battleship" id="ship-cruiser_1">⚓</div>
         </div>
+
+        <?php 
+            if ($tailleMatrice >= 16): ?>
+            <div class="ship-container">
+                <div>Sous-Marin (3)</div>
+                <div class="ship size-3" draggable="true" data-size="3" data-type="submarine" id="ship-submarine_3">⚓</div>
+            </div>
+        <?php endif; ?>
 
         <div class="ship-container">
             <div>Sous-Marin (3)</div>
@@ -50,8 +76,31 @@ $tailleMatrice = $_SESSION['taille_grille'];
         </div>
 
         <div class="ship-container">
+            <div>Sous-Marin (3)</div>
+            <div class="ship size-3" draggable="true" data-size="3" data-type="submarine" id="ship-submarine_1">⚓</div>
+        </div>
+
+        <?php
+            if ($tailleMatrice >= 14): ?> 
+                <div class="ship-container">
+                    <div>Torpilleur (2)</div>
+                    <div class="ship size-2" draggable="true" data-size="2" data-type="destroyer" id="ship-destroyer_3">⚓</div>
+                </div>
+        <?php endif; ?>
+
+
+        <?php
+            if ($tailleMatrice >= 12): ?> 
+                <div class="ship-container">
+                    <div>Torpilleur (2)</div>
+                    <div class="ship size-2" draggable="true" data-size="2" data-type="destroyer" id="ship-destroyer_2">⚓</div>
+                </div>
+        <?php endif; ?>
+
+
+        <div class="ship-container">
             <div>Torpilleur (2)</div>
-            <div class="ship size-2" draggable="true" data-size="2" data-type="destroyer" id="ship-destroyer">⚓</div>
+            <div class="ship size-2" draggable="true" data-size="2" data-type="destroyer" id="ship-destroyer_1">⚓</div>
         </div>
 
         <div class="controls">
