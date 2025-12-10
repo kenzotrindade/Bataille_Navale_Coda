@@ -9,6 +9,8 @@ const btnRotate = document.getElementById("rotateBtn");
 const allShips = document.querySelectorAll(".ship");
 const btnValider = document.getElementById("validateBtn");
 
+console.log("✅ Test de connexion : " + cells.length + " cases trouvées.");
+
 function getCasesCibles(x, y, taille, orientation) {
   let cellules = [];
   for (let i = 0; i < taille; i++) {
