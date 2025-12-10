@@ -32,6 +32,7 @@ body {
   cursor: grab;
   border-radius: 4px;
   user-select: none;
+  transition: all 0.3s ease;
 }
 
 .ship:active {
@@ -50,6 +51,28 @@ body {
 .size-2 {
   width: 80px;
 }
+
+.ship.verticale {
+  width: 40px !important;
+  flex-direction: column;
+}
+
+.ship.verticale.size-5 {
+  height: 200px;
+}
+.ship.verticale.size-4 {
+  height: 160px;
+}
+.ship.verticale.size-3 {
+  height: 120px;
+}
+.ship.verticale.size-2 {
+  height: 80px;
+}
+
+/* .verticale {
+  transform: rotateX(90 );
+} */
 
 .cell {
   width: 40px;
