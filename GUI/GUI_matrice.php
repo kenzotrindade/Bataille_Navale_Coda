@@ -68,22 +68,16 @@ header('refresh:1');
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="<?= htmlspecialchars($theme) ?>-theme">
 
 <head>
   <meta charset="UTF-8">
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
-      document.documentElement.className = savedTheme + '-theme';
-    })();
-  </script>
   <link rel="stylesheet" href="CSS/style.css">
   <link rel="stylesheet" href="./CSS/GUI.css">
   <title>Bataille Navale - Combat</title>
 </head>
 
-<body class="<?= htmlspecialchars($theme) ?>-theme">
+<body>
   <h1><?= $message ?></h1>
 
   <div class="game-container">
