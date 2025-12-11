@@ -39,7 +39,7 @@ if ($est_vainqueur) {
 <head>
     <meta charset="UTF-8">
     <title>Fin de partie</title>
-    <link rel="stylesheet" href="../GUI/CSS/partie_terminée.css" >
+    <link rel="stylesheet" href="../GUI/CSS/partie_terminée.css">
     <style>
         h1 {
             color: <?= $couleur ?>;
