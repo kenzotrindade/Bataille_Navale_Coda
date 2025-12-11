@@ -168,10 +168,13 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';
       const themeSelect = document.getElementById('theme-select');
+<<<<<<< HEAD
 
       if (themeSelect) {
         themeSelect.value = savedTheme;
       }
+=======
+>>>>>>> c23613d8c9d3ad690059bb56edfbdee96d9953b7
     });
   </script>
 </body>
