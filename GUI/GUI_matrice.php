@@ -64,7 +64,7 @@ $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
 $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
-header('refresh:1');
+header('refresh:3');
 ?>
 
 <!DOCTYPE html>

@@ -2,6 +2,7 @@
 session_start();
 $tailleMatrice = $_SESSION['taille_grille'];
 
+$largeurCarrier = ($tailleMatrice == 20) ? 2 : 1;
 $totalBateaux = 5;
 
 if ($tailleMatrice >= 12){
@@ -46,7 +47,8 @@ if ($tailleMatrice >= 18){
 
         <div class="ship-container">
             <div>Porte-Avions (5)</div>
-            <div class="ship size-5" draggable="true" data-size="5" data-type="carrier" id="ship-carrier">⚓</div>
+            <div class="ship size-5" draggable="true" data-width="<?= $largeurCarrier ?> data-size="5" data-type="carrier" id="ship-carrier"
+            style="<?= ($largeurCarrier == 2) ? 'height: 80px; line-height: 80px;' : '' ?>"> ⚓ </div>
         </div>
 
         <?php 
