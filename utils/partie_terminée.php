@@ -39,52 +39,14 @@ if ($est_vainqueur) {
 <head>
     <meta charset="UTF-8">
     <title>Fin de partie</title>
+    <link rel="stylesheet" href="../GUI/CSS/partie_terminée.css" >
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #263238;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
         h1 {
-            font-size: 4em;
-            margin-bottom: 10px;
             color: <?= $couleur ?>;
         }
 
-        p {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-        }
-
-        img {
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
-            max-width: 400px;
-        }
-
         button {
-            padding: 15px 40px;
-            font-size: 1.2em;
             background-color: <?= $couleur ?>;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-weight: bold;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
         }
     </style>
 </head>

@@ -177,39 +177,3 @@ function recuperer_historique_tirs($pdo, $game_id, $player_id, $grille)
     }
     return $grille;
 }
-
-// function obtenir_matrices_combat($pdo, $game_id, $mon_id, $adversaire_id, $tailleMatrice)
-// {
-//     $grille_defense = creerMatrice($tailleMatrice);
-//     $grille_attaque = creerMatrice($tailleMatrice);
-
-//     $grille_defense = placer($pdo, $grille_defense, $game_id, $mon_id);
-
-//     $grille_defense = recuperer_historique_tirs($pdo, $game_id, $adversaire_id, $grille_defense);
-
-//     $grille_attaque = recuperer_historique_tirs($pdo, $game_id, $mon_id, $grille_attaque);
-
-//     $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
-
-
-//     return [
-//         'defense' => $grille_defense,
-//         'attaque' => $grille_attaque
-//     ];
-// }
-
-// function obtenir_tour_actuel($pdo, $game_id)
-// {
-//     $sql = "SELECT current_turn FROM games WHERE id = ?";
-//     $stmt = $pdo->prepare($sql);
-//     $stmt->execute([$game_id]);
-
-//     return $stmt->fetchColumn();
-// }
-
-// function changer_tour($pdo, $game_id, $nouveau_joueur_id)
-// {
-//     $sql = "UPDATE games SET current_turn = ? WHERE id = ?";
-//     $stmt = $pdo->prepare($sql);
-//     $stmt->execute([$nouveau_joueur_id, $game_id]);
-// }

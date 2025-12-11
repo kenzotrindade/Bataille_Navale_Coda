@@ -4,10 +4,10 @@ require_once("../data/DB.php");
 require_once("../utils/logique_partie.php");
 
 
-// if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
-//   header("Location: ../utils/player.php");
-//   exit;
-// }
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['game_id'])) {
+  header("Location: ../utils/player.php");
+  exit;
+}
 
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
@@ -141,7 +141,7 @@ header('refresh:1');
 
   </div>
 
-  <form method="post" id="abandonForm" action="../utils/player.php" style="text-align:center; margin-top:20px;">
+  <form method="post" id="abandonForm" action="../utils/abandon.php" style="text-align:center; margin-top:20px;">
     <button type="button" onclick="confirmAbandon()">❌ Abandonner la partie</button>
   </form>
 
