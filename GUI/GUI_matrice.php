@@ -19,8 +19,8 @@ $stmt->execute([$game_id]);
 $etat_partie = $stmt->fetchColumn();
 
 if ($etat_partie === 'finished') {
-    header("Location: ../utils/partie_terminée.php");
-    exit;
+  header("Location: ../utils/partie_terminée.php");
+  exit;
 }
 
 $stmt = $pdo->prepare("SELECT current_player FROM games WHERE id = ?");
@@ -64,7 +64,7 @@ $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
 $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
-// header('refresh:5');
+header('refresh:1');
 ?>
 
 <!DOCTYPE html>

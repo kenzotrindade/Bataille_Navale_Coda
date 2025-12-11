@@ -1,0 +1,302 @@
+:root {
+  --font-family-base: "Arial", sans-serif;
+  --color-background: #1e1e1e;
+  --color-text: #f0f0f0;
+  --color-primary: #007bff;
+  --color-accent: #ffc107;
+  --color-button-bg: #007bff;
+  --color-button-text: white;
+  --color-db-button: #dc3545;
+  --color-shadow-light: rgba(0, 0, 0, 0.4);
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.launcher-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: opacity 1s;
+}
+
+.main-menu-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px var(--color-shadow-light);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  transition: all 0.5s ease-in-out;
+}
+
+.game-title {
+  font-size: 3.5em;
+  margin-bottom: 0px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  animation: fadeInDown 1s ease-out;
+}
+
+.slogan {
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.theme-selector.index-select {
+  margin-bottom: 25px;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.theme-selector.index-select h2 {
+  font-size: 1.2em;
+  margin: 0 0 10px 0;
+}
+#theme-select {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid var(--color-primary);
+  background-color: white;
+  font-size: 1em;
+}
+
+.btn {
+  display: inline-block;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-play {
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+}
+
+.btn-db {
+  background-color: var(--color-db-button);
+  color: white;
+  opacity: 0.8;
+}
+
+.starwars-theme {
+  --color-background: #000000;
+  --color-text: #ffeb3b;
+  --color-primary: #00bfff;
+  --color-button-bg: #00bfff;
+  --color-button-text: black;
+  --color-db-button: #ff4500;
+  --color-shadow-light: rgba(0, 191, 255, 0.5);
+  box-shadow: 100px 100px #fff, 200px 200px 1px #fff, 300px 50px #fff,
+    450px 350px 1px #fff, 600px 150px #fff, 750px 400px #fff,
+    900px 250px 1px #fff, 1050px 300px #fff, 1200px 100px #fff, 10px 500px #fff,
+    500px 10px #fff, 800px 550px #fff, 1150px 50px #fff;
+  background-repeat: repeat;
+}
+.starwars-theme .game-title {
+  color: #ffeb3b;
+  text-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary);
+  animation: starWarsTitle 3s infinite alternate;
+}
+.starwars-theme .slogan {
+  color: var(--color-primary);
+  font-style: normal;
+}
+.starwars-theme .main-menu-container {
+  background: rgba(10, 10, 10, 0.95);
+  border: 3px solid var(--color-primary);
+  box-shadow: 0 0 30px var(--color-shadow-light);
+  color: var(--color-text);
+}
+.starwars-theme .theme-selector.index-select {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--color-primary);
+}
+.starwars-theme #theme-select {
+  background-color: #1a1a1a;
+  color: var(--color-text);
+}
+
+@keyframes starWarsTitle {
+  0% {
+    opacity: 0.8;
+    text-shadow: 0 0 5px var(--color-primary);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 15px var(--color-primary), 0 0 25px var(--color-primary);
+  }
+}
+
+.apoc-theme {
+  --font-family-base: "Impact", "Georgia", serif;
+  --color-background: #3e2723;
+  --color-text: #ffcc80;
+  --color-primary: #d32f2f;
+  --color-accent: #ff5722;
+  --color-button-bg: #4e342e;
+  --color-button-text: var(--color-text);
+  --color-db-button: #d32f2f;
+  --color-shadow-light: rgba(255, 87, 34, 0.6);
+}
+.apoc-theme body {
+  background-image: linear-gradient(to top, #4e342e, #6d4c41);
+}
+.apoc-theme .launcher-backdrop {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect width="100%" height="100%" fill="none"/><path d="M0 0 H10 V10 H0 Z" fill="%23d32f2f" opacity="0.1"/></svg>');
+  background-size: 20px 20px;
+  animation: staticNoise 0.2s infinite;
+}
+.apoc-theme .main-menu-container {
+  background: #795548;
+  border: 4px solid var(--color-primary);
+  box-shadow: 5px 5px 0px var(--color-accent),
+    0 0 20px var(--color-shadow-light);
+  color: var(--color-text);
+  border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect x="0" y="0" width="100%" height="100%" stroke="%23d32f2f" stroke-width="4" fill="none" stroke-dasharray="10 5" stroke-linecap="round"/></svg>')
+    1;
+}
+.apoc-theme .game-title {
+  color: var(--color-primary);
+  text-shadow: 2px 2px 0px #4e342e;
+}
+.apoc-theme .slogan {
+  color: var(--color-accent);
+}
+.apoc-theme .btn {
+  border: 2px solid var(--color-accent);
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px #3e2723;
+}
+.apoc-theme .btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+.apoc-theme .theme-selector.index-select {
+  background: #5d4037;
+  border-color: #555;
+}
+.apoc-theme #theme-select {
+  background-color: #3e2723;
+  color: var(--color-text);
+}
+
+@keyframes staticNoise {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 20px;
+  }
+}
+
+.classic-theme {
+  --color-background: #f0f8ff;
+  --color-text: #1d3557;
+  --color-primary: #1d3557;
+  --color-button-bg: #457b9d;
+  --color-button-text: white;
+  --color-db-button: #e63946;
+  --color-shadow-light: rgba(29, 53, 87, 0.4);
+}
+.classic-theme body {
+  background: linear-gradient(to top, #a8dadc, #f1faee);
+}
+.classic-theme .launcher-backdrop {
+  background: radial-gradient(
+      circle at top left,
+      transparent 20%,
+      #a8dadc 20%,
+      #a8dadc 80%,
+      transparent 80%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      transparent 20%,
+      #a8dadc 20%,
+      #a8dadc 80%,
+      transparent 80%
+    );
+  background-size: 500px 500px;
+  opacity: 0.5;
+  animation: gentleWave 10s infinite linear;
+}
+.classic-theme .main-menu-container {
+  background: white;
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 10px 30px var(--color-shadow-light);
+}
+.classic-theme .game-title {
+  color: var(--color-primary);
+}
+
+@keyframes gentleWave {
+  0% {
+    background-position: 0 0, 20px 20px;
+  }
+  100% {
+    background-position: 500px 500px, 520px 520px;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
