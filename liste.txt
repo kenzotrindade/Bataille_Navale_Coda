@@ -1,11 +1,6 @@
-todo : En fonction de la taille de la grille rajouté un deuxième torpilleur (2 cases de long) une fois que la taille >= 15 (euuuuhh plus enzo stp tu t'es pas rendu de compte de ce que donne du 20x20)
-todo : (optionnel) faire en sorte que ca prenne en compte le début de bateau sur la grille et pas seulement mon curseur 
-
-Solution 1 : La méthode "Complexe" (Gérer le décalage)
-Il faudrait calculer, au moment du dragstart, où tu as cliqué dans le bateau.
-
-Exemple : J'ai cliqué à 120px du bord gauche. Comme une case fait 40px, 120 / 40 = 3. Donc j'ai attrapé le bateau à l'index 3.
-
-Ensuite, dans getCasesCibles, il faudrait faire targetX = x - index_cliqué.
-
-👉 Mon conseil : C'est une prise de tête mathématique (il faut gérer l'horizontale ET la verticale, l'offset de la souris, etc.). Pour un projet école, c'est du "nice to have" (bonus), pas de l'indispensable.
+todo : faire un porte-avion de 5x2 pour du 20x20
+todo : (optionnel) Faire en sorte que ca prenne en compte le début de bateau sur la grille et pas seulement mon curseur 
+todo : Faire un tableau des scores
+todo : s'occuper du style qui saute a chaque refresh
+todo : faire un vrai message d'alerte pour l'abandon (qui ne saute pas avec le refresh de préférence)
+todo : clean le code et review
