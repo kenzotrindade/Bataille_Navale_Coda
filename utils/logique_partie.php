@@ -55,14 +55,17 @@ function placer($pdo, $grille, $game_id, $player_id)
         $y = $bateau['start_y'];
         $taille = $bateau['size'];
         $direction = $bateau['orientation'];
+        $width = $bateau['width'];
 
         for ($i = 0; $i < $taille; $i++) {
-            if ($direction == "H") {
-                $grille[$y][$x + $i] = $taille;
-            } elseif ($direction == "V") {
-                $grille[$y + $i][$x] = $taille;
-            } else {
-                break;
+            for ($j = 0; $j < $width; $j++){
+                if ($direction == "H") {
+                    $grille[$y + $j][$x + $i] = $taille;
+                } elseif ($direction == "V") {
+                    $grille[$y + $i][$x + $j] = $taille;
+                } else {
+                    break;
+                }
             }
         }
     }
@@ -75,17 +78,21 @@ function placer_epave($pdo, $grille, $game_id, $adversaire_id)
     $bateaux = recup($pdo, $game_id, $adversaire_id);
 
     foreach ($bateaux as $bateau) {
-        if ($bateau["hits"] == $bateau["size"]) {
+        $width = $bateau['width'];
+
+        if ($bateau["hits"] == ($bateau["size"] * $width)) {
             $x = $bateau['start_x'];
             $y = $bateau['start_y'];
             $taille = $bateau['size'];
             $direction = $bateau['orientation'];
 
             for ($i = 0; $i < $taille; $i++) {
-                if ($direction == "H") {
-                    $grille[$y][$x + $i] = "EPAVE"; 
-                } elseif ($direction == "V") {
-                    $grille[$y + $i][$x] = "EPAVE";
+                for ($j = 0; $j < $width; $j++){
+                    if ($direction == "H") {
+                        $grille[$y + $j][$x + $i] = "EPAVE";
+                    } elseif ($direction == "V") {
+                        $grille[$y + $i][$x + $j] = "EPAVE";
+                    }
                 }
             }
         }
@@ -101,20 +108,35 @@ function tirer($pdo, $game_id, $player_id, $adversaire_id, $x, $y)
     $resultat_env = "miss";
     $message = "Plouf !";
 
+    $stmt_game = $pdo->prepare("SELECT player1_id FROM games WHERE id = ?");
+    $stmt_game->execute([$game_id]);
+    $game_data = $stmt_game->fetch(PDO::FETCH_ASSOC);
+    $j1_id = $game_data['player1_id'];
+
+    if ($player_id == $j1_id) {
+        $colonne_hits = 'j1_hits';
+        $colonne_misses = 'j1_misses';
+    } else {
+        $colonne_hits = 'j2_hits';
+        $colonne_misses = 'j2_misses';
+    }
+
+
     foreach ($bateaux as $bateau) {
         $bateau_x = $bateau['start_x'];
         $bateau_y = $bateau['start_y'];
         $size = $bateau['size'];
         $orientation = $bateau['orientation'];
-        
+        $width = $bateau['width'];
+
         $est_touche = false;
 
-        if ($orientation == "H") { 
-            if ($y == $bateau_y && $x >= $bateau_x && $x < ($bateau_x + $size)) {
+        if ($orientation == "H") {
+            if ($y >= $bateau_y && $y < ($bateau_y + $width) && $x >= $bateau_x && $x < ($bateau_x + $size)) {
                 $est_touche = true;
             }
-        } elseif ($orientation == "V") { 
-            if ($x == $bateau_x && $y >= $bateau_y && $y < ($bateau_y + $size)) {
+        } elseif ($orientation == "V") {
+            if ($x >= $bateau_x && $x < ($bateau_x + $width) && $y >= $bateau_y && $y < ($bateau_y + $size)) {
                 $est_touche = true;
             }
         }
@@ -124,28 +146,42 @@ function tirer($pdo, $game_id, $player_id, $adversaire_id, $x, $y)
             $message = "Touché !";
 
             $nouveaux_hits = $bateau['hits'] + 1;
-            
+
             $upd = $pdo->prepare("UPDATE ships SET hits = ? WHERE id = ?");
             $upd->execute([$nouveaux_hits, $bateau['id']]);
 
-            if ($nouveaux_hits == $size) {
+            if ($nouveaux_hits == ($size * $width)) {
+                $resultat_env = "sunk";
                 $message = "COULÉ !!!";
             }
-            
-            break; 
+            break;
         }
+    }
+
+    if ($resultat_env === 'hit' || $resultat_env === 'sunk') {
+        $pdo->prepare("UPDATE games SET {$colonne_hits} = {$colonne_hits} + 1 WHERE id = ?")
+            ->execute([$game_id]);
+    } else {
+        $pdo->prepare("UPDATE games SET {$colonne_misses} = {$colonne_misses} + 1 WHERE id = ?")
+            ->execute([$game_id]);
     }
 
     $sql = "INSERT INTO shots (game_id, player_id, x, y, result) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$game_id, $player_id, $x, $y, $resultat_env]);
 
-    $sql_surv = "SELECT COUNT(*) FROM ships WHERE game_id = ? AND player_id = ? AND hits < size";
-    $stmt_surv = $pdo->prepare($sql_surv);
-    $stmt_surv->execute([$game_id, $adversaire_id]);
-    $nb_survivants = $stmt_surv->fetchColumn();
+    $tous_coules = true;
+    
 
-    if ($nb_survivants == 0){
+    $verif_bateaux = recup($pdo, $game_id, $adversaire_id);
+    foreach($verif_bateaux as $verif) {
+        if ($verif['hits'] < ($verif['size'] * $verif['width'])) {
+            $tous_coules = false;
+            break;
+        }
+    }
+
+    if ($tous_coules) {
         $sql_win = "UPDATE games SET status = 'finished', winner_id = ? WHERE id = ?";
         $stmt_win = $pdo->prepare($sql_win);
         $stmt_win->execute([$player_id, $game_id]);
@@ -155,6 +191,7 @@ function tirer($pdo, $game_id, $player_id, $adversaire_id, $x, $y)
 
     return $message;
 }
+
 
 function recuperer_historique_tirs($pdo, $game_id, $player_id, $grille)
 {

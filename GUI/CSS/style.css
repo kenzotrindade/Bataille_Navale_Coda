@@ -13,6 +13,11 @@
   --color-grille-touche: red;
   --color-grille-plouf: blueviolet;
   --grille-border: 1px solid black;
+
+  --color-score-bg: #f8f8f8;
+  --color-score-text: #333;
+  --color-score-border: #ccc;
+  --color-score-precision: #007bff;
 }
 
 body {
@@ -152,7 +157,7 @@ td {
   background-color: var(--color-grille-bateau);
 }
 
-.touché {
+.touche {
   background-color: var(--color-grille-touche);
 }
 
@@ -160,9 +165,45 @@ td {
   background-color: var(--color-grille-plouf);
 }
 
-.touché,
+.touche,
 .plouf {
   cursor: not-allowed;
+}
+
+.score-board-container {
+  width: 300px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  background-color: var(--color-score-bg);
+  color: var(--color-score-text);
+  border: 1px solid var(--color-score-border);
+}
+
+.score-board-container h2 {
+  font-size: 1.3em;
+  margin-top: 0;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--color-score-border);
+  margin-bottom: 15px;
+  color: var(--color-score-text);
+}
+
+.score-board-container p {
+  margin: 8px 0;
+  font-size: 1em;
+}
+
+.score-board-container strong {
+  font-weight: 600;
+}
+
+.score-board-container .ratio-precision {
+  font-weight: bold;
+  color: var(--color-score-precision);
+  font-size: 1.1em;
 }
 
 .starwars-theme {
@@ -180,6 +221,11 @@ td {
   --color-grille-touche: #ff0000;
   --color-grille-plouf: #004a77;
   --grille-border: 1px solid #00bfff;
+
+  --color-score-bg: #1a1a1a;
+  --color-score-text: #ffeb3b;
+  --color-score-border: #00bfff;
+  --color-score-precision: #3498db;
 
   box-shadow: 100px 100px #fff, 200px 200px 1px #fff, 300px 50px #fff,
     450px 350px 1px #fff, 600px 150px #fff, 750px 400px #fff,
@@ -207,6 +253,11 @@ td {
   box-shadow: 0 0 5px var(--color-primary);
 }
 
+.starwars-theme .score-board-container h2 {
+  border-bottom: 2px solid var(--color-score-border);
+  color: var(--color-score-text);
+}
+
 .apoc-theme {
   --font-family-base: "Impact", "Georgia", serif;
   --color-background: #5d4037;
@@ -223,6 +274,12 @@ td {
   --color-grille-plouf: #3e2723;
   --grille-border: 2px dashed var(--color-accent);
   background-image: linear-gradient(to top, #4e342e, #6d4c41);
+
+  /* Variables Score Apoc */
+  --color-score-bg: #795548;
+  --color-score-text: #ffcc80;
+  --color-score-border: #d32f2f;
+  --color-score-precision: #ff5722;
 }
 .apoc-theme .main-menu-container,
 .apoc-theme .game-lobby {
@@ -234,4 +291,8 @@ td {
 .apoc-theme .btn-debug-reset {
   border: 1px solid var(--color-accent);
   text-transform: uppercase;
+}
+.apoc-theme .score-board-container h2 {
+  border-bottom: 2px solid var(--color-score-border);
+  color: var(--color-score-text);
 }

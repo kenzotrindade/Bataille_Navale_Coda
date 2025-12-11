@@ -24,13 +24,15 @@ try {
     $player_id = $_SESSION['user_id'];
 
 
-    $sql = "INSERT INTO ships (game_id, player_id, type, start_x, start_y, orientation, size, hits) 
-            VALUES (:game_id, :player_id, :type, :x, :y, :orientation, :size, 0)";
+    $sql = "INSERT INTO ships (game_id, player_id, type, start_x, start_y, orientation, size, width, hits) 
+            VALUES (:game_id, :player_id, :type, :x, :y, :orientation, :size, :width, 0)";
     
     $stmt = $pdo->prepare($sql);
 
 
     foreach ($data['ships'] as $ship) {
+        $width = isset($ship['width']) ? (int)$ship['width'] : 1;
+
         $stmt->execute([
             ':game_id'     => $game_id,
             ':player_id'   => $player_id,
@@ -38,7 +40,8 @@ try {
             ':x'           => $ship['x'],
             ':y'           => $ship['y'],
             ':orientation' => $ship['orientation'],
-            ':size'        => $ship['taille']
+            ':size'        => $ship['taille'],
+            ':width'       => $width
         ]);
     }
 

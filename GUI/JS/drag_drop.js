@@ -1,5 +1,6 @@
 let draggedShipType = null;
 let draggedShipSize = 0;
+let draggedShipWidth = 1;
 let orientation_ship = "H";
 let placedShips = [];
 let draggedShipId = null;
@@ -15,21 +16,25 @@ const totalShips = parseInt(
 function getCasesCibles(x, y, taille, orientation) {
   let cellules = [];
   for (let i = 0; i < taille; i++) {
-    let targetX = x;
-    let targetY = y;
+    for (let j = 0; j < draggedShipWidth; j++) {
+      let targetX = x;
+      let targetY = y;
 
-    if (orientation === "H") {
-      targetX = parseInt(x) + i;
-    } else {
-      targetY = parseInt(y) + i;
-    }
+      if (orientation === "H") {
+        targetX = parseInt(x) + i;
+        targetY = parseInt(y) + j;
+      } else {
+        targetY = parseInt(y) + i;
+        targetX = parseInt(x) + j;
+      }
 
-    let attributes = document.querySelector(
-      `.cell[data-x='${targetX}'][data-y='${targetY}']`
-    );
+      let attributes = document.querySelector(
+        `.cell[data-x='${targetX}'][data-y='${targetY}']`
+      );
 
-    if (attributes) {
-      cellules.push(attributes);
+      if (attributes) {
+        cellules.push(attributes);
+      }
     }
   }
   return cellules;
@@ -42,6 +47,7 @@ ships.forEach((ship) => {
     draggedShipSize = parseInt(e.target.dataset.size);
     draggedShipType = e.target.dataset.type;
     draggedShipId = e.target.id;
+    draggedShipWidth = parseInt(e.target.dataset.width);
 
     console.log("J'ai attrapé un bateau de taille : " + draggedShipSize);
   });
@@ -59,10 +65,11 @@ cells.forEach((cell) => {
       draggedShipSize,
       orientation_ship
     );
+    const case2D = draggedShipSize * draggedShipWidth;
 
     // Permet de savoir si le placement est valide ou non
     let estValide = true;
-    if (result.length !== draggedShipSize) {
+    if (result.length !== case2D) {
       estValide = false;
     } else {
       result.forEach((cas) => {
@@ -106,9 +113,10 @@ cells.forEach((cell) => {
       draggedShipSize,
       orientation_ship
     );
+    const case2D = draggedShipSize * draggedShipWidth;
 
     let estValide = true;
-    if (result.length !== draggedShipSize) {
+    if (result.length !== case2D) {
       estValide = false;
     } else {
       result.forEach((cas) => {
@@ -130,6 +138,7 @@ cells.forEach((cell) => {
         y: case_y,
         orientation: orientation_ship,
         taille: draggedShipSize,
+        width: draggedShipWidth,
       });
 
       const shipElement = document.getElementById(draggedShipId);
