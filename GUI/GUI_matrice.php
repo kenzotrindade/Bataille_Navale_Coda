@@ -14,18 +14,32 @@ $mon_id = $_SESSION['user_id'];
 $adversaire_id = recuperer_id_adversaire($pdo, $game_id, $mon_id);
 $tailleMatrice = $_SESSION['taille_grille'];
 
-$stmt = $pdo->prepare("SELECT status FROM games WHERE id = ?");
-$stmt->execute([$game_id]);
-$etat_partie = $stmt->fetchColumn();
+$stmt_game_data = $pdo->prepare("SELECT status, current_player, player1_id, j1_hits, j1_misses, j2_hits, j2_misses FROM games WHERE id = ?");
+$stmt_game_data->execute([$game_id]);
+$game_data = $stmt_game_data->fetch(PDO::FETCH_ASSOC);
+
+$etat_partie = $game_data['status'];
+$id_joueur_actif = $game_data['current_player'];
+
 
 if ($etat_partie === 'finished') {
   header("Location: ../utils/partie_terminée.php");
   exit;
 }
 
-$stmt = $pdo->prepare("SELECT current_player FROM games WHERE id = ?");
-$stmt->execute([$game_id]);
-$id_joueur_actif = $stmt->fetchColumn();
+$is_j1 = ($mon_id == $game_data['player1_id']);
+$mes_hits = $is_j1 ? $game_data['j1_hits'] : $game_data['j2_hits'];
+$mes_misses = $is_j1 ? $game_data['j1_misses'] : $game_data['j2_misses'];
+
+$total_tirs = $mes_hits + $mes_misses;
+$ratio_precision = 0;
+
+if ($total_tirs > 0) {
+  $ratio_precision = ($mes_hits / $total_tirs) * 100;
+}
+
+$ratio_formatte = number_format($ratio_precision, 1);
+
 
 if (isset($_GET['x']) && isset($_GET['y'])) {
 
@@ -64,7 +78,9 @@ $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
 $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
-header('refresh:1');
+if (!$mon_tour) {
+  header('refresh:3');
+}
 ?>
 
 <!DOCTYPE html>
@@ -135,6 +151,13 @@ header('refresh:1');
 
   </div>
 
+  <div class="score-board-container">
+    <h2>🎯 Mes Stats</h2>
+    <p><strong>Touches :</strong> <?= $mes_hits ?></p>
+    <p><strong>Ploufs :</strong> <?= $mes_misses ?></p>
+    <p><strong>Total des tirs :</strong> <?= $total_tirs ?></p>
+    <p><strong class="ratio-precision">Précision :</strong> <?= $ratio_formatte ?> %</p>
+  </div>
   <form method="post" id="abandonForm" action="../utils/abandon.php" style="text-align:center; margin-top:20px;">
     <button type="button" onclick="confirmAbandon()">❌ Abandonner la partie</button>
   </form>
@@ -152,7 +175,6 @@ header('refresh:1');
       }
     }
 
-    // Maintenir le thème
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';
       document.body.className = savedTheme + '-theme';

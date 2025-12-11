@@ -4,3 +4,5 @@ todo : Faire un tableau des scores
 todo : s'occuper du style qui saute a chaque refresh
 todo : faire un vrai message d'alerte pour l'abandon (qui ne saute pas avec le refresh de préférence)
 todo : clean le code et review
+todo : faire le style de la db install ( frontend )
+todo : Maybe faire le css placement.php ( application du thème pourquoi pas )
