@@ -1,7 +1,6 @@
 todo : faire un porte-avion de 5x2 pour du 20x20
 todo : (optionnel) Faire en sorte que ca prenne en compte le début de bateau sur la grille et pas seulement mon curseur 
-todo : Faire un tableau des scores
-todo : s'occuper du style qui saute a chaque refresh
+todo : s'occuper du style qui saute a chaque refresh ( à vérifier ducoup )
 todo : faire un vrai message d'alerte pour l'abandon (qui ne saute pas avec le refresh de préférence)
 todo : clean le code et review
 todo : faire le style de la db install ( frontend )

@@ -10,10 +10,11 @@ if (!isset($_SESSION['game_id']) || !isset($_SESSION['user_id'])) {
 $game_id = $_SESSION['game_id'];
 $mon_id = $_SESSION['user_id'];
 
-$stmt_game_data = $pdo->prepare("SELECT winner_id, player1_id, j1_hits, j1_misses, j2_hits, j2_misses FROM games WHERE id = ?");
+$stmt_game_data = $pdo->prepare("SELECT status, winner_id, player1_id, j1_hits, j1_misses, j2_hits, j2_misses FROM games WHERE id = ?");
 $stmt_game_data->execute([$game_id]);
 $game_data = $stmt_game_data->fetch(PDO::FETCH_ASSOC);
 
+$status = $game_data['status'];
 $winner_id = $game_data['winner_id'];
 $est_vainqueur = ($mon_id == $winner_id);
 
@@ -29,7 +30,21 @@ if ($total_tirs > 0) {
 }
 $ratio_formatte = number_format($ratio_precision, 1);
 
-if ($est_vainqueur) {
+$abandon_partie = ($status == 'abandonned');
+
+if ($abandon_partie) {
+    if ($est_vainqueur) {
+        $titre = "Victoire par KO ! (Abandon de l'adversaire)";
+        $message = "Votre adversaire a pris la fuite face à votre puissance navale ! La victoire est vôtre sans effort.";
+        $couleur = "#FFD700";
+        $gif = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXB1M3A3bGRrNWsyaWVodm8xdDRieHgwdnZkMmZlNG0wZzM0a3g0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/g7GKcSzwQfugw/giphy.gif";
+    } else {
+        $titre = "Abandon confirmé. Partie Perdue.";
+        $message = "Vous avez abandonné la partie. Votre flotte est considérée comme anéantie.";
+        $couleur = "#FFA07A";
+        $gif = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcW5jdjU0czg1czB2Mjdrcm9sNG10OGYzMnNnd3FyOGp4OGE3M2w1NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Zk9mW5OmXTz9e/giphy.gif";
+    }
+} elseif ($est_vainqueur) {
     $titre = "Bravo vous avez gagné !!!";
     $message = "Félicitation moussaillon vous avez envoyer la flotte ennemie par le fond";
     $couleur = "#4CAF50";

@@ -22,7 +22,7 @@ $etat_partie = $game_data['status'];
 $id_joueur_actif = $game_data['current_player'];
 
 
-if ($etat_partie === 'finished') {
+if ($etat_partie === 'finished' || $etat_partie === 'abandonned') {
   header("Location: ../utils/partie_terminée.php");
   exit;
 }
@@ -78,9 +78,7 @@ $grille_attaque = placer_epave($pdo, $grille_attaque, $game_id, $adversaire_id);
 
 $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
-if (!$mon_tour) {
-  header('refresh:3');
-}
+header('refresh:3');
 ?>
 
 <!DOCTYPE html>
