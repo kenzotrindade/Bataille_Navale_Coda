@@ -1,4 +1,3 @@
-todo : faire un porte-avion de 5x2 pour du 20x20
 todo : (optionnel) Faire en sorte que ca prenne en compte le début de bateau sur la grille et pas seulement mon curseur 
 todo : s'occuper du style qui saute a chaque refresh ( à vérifier ducoup )
 todo : clean le code et review

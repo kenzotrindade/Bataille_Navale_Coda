@@ -47,7 +47,7 @@ if ($tailleMatrice >= 18) {
 
         <div class="ship-container">
             <div>Porte-Avions (5)</div>
-            <div class="ship size-5" draggable="true" data-width="<?= $largeurCarrier ?> data-size="5" data-type="carrier" id="ship-carrier"
+            <div class="ship size-5" draggable="true" data-width="<?= $largeurCarrier ?>" data-size="5" data-type="carrier" id="ship-carrier"
             style="<?= ($largeurCarrier == 2) ? 'height: 80px; line-height: 80px;' : '' ?>"> ⚓ </div>
         </div>
 
