@@ -36,7 +36,7 @@ if (isset($_POST["reset_total"])) {
   unset($_SESSION['game_id']);
   unset($_SESSION['user_id']);
   unset($_SESSION['taille_grille']);
-
+  // Logique d'ABANDON : Définit la notification
   $_SESSION['notification_abandon'] = "La partie a été abandonnée. Le jeu est réinitialisé.";
 
   header("Location: player.php");
@@ -93,13 +93,17 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../GUI/CSS/style.css">
   <title>Connexion au jeu</title>
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+      document.documentElement.classList.add(savedTheme + '-theme');
+      document.body.className = savedTheme + '-theme';
+    })();
+  </script>
 </head>
 
-<?php
-$theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
-?>
-
-<body class="<?= htmlspecialchars($theme) ?>-theme">
+<body>
 
   <div class="main-menu-container">
     <h1>BATAILLE NAVALE</h1>
@@ -152,17 +156,21 @@ $theme = isset($_COOKIE['gameTheme']) ? $_COOKIE['gameTheme'] : 'classic';
 
   <script>
     function appliquerTheme(theme) {
+      document.documentElement.className = '';
       document.body.className = '';
+
+      document.documentElement.classList.add(theme + '-theme');
       document.body.classList.add(theme + '-theme');
+
       localStorage.setItem('gameTheme', theme);
-      document.cookie = `gameTheme=${theme}; path=/; max-age=31536000`;
     }
+
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('gameTheme') || 'classic';
       const themeSelect = document.getElementById('theme-select');
+
       if (themeSelect) {
         themeSelect.value = savedTheme;
-        appliquerTheme(savedTheme);
       }
     });
   </script>

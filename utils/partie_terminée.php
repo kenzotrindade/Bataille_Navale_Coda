@@ -16,11 +16,11 @@ $winner_id = $stmt->fetchColumn();
 
 $est_vainqueur = false;
 
-if ($mon_id == $winner_id){
+if ($mon_id == $winner_id) {
     $est_vainqueur = true;
 }
 
-if ($est_vainqueur){
+if ($est_vainqueur) {
     $titre = "Bravo vous avez gagné !!!";
     $message = "Félicitation moussaillon vous avez envoyer la flotte ennemie par le fond";
     $couleur = "#4CAF50";
@@ -35,6 +35,7 @@ if ($est_vainqueur){
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Fin de partie</title>
@@ -50,10 +51,25 @@ if ($est_vainqueur){
             height: 100vh;
             margin: 0;
         }
-        h1 { font-size: 4em; margin-bottom: 10px; color: <?= $couleur ?>; }
-        p { font-size: 1.5em; margin-bottom: 30px; }
-        img { border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); margin-bottom: 30px; max-width: 400px; }
-        
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            color: <?= $couleur ?>;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        img {
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            max-width: 400px;
+        }
+
         button {
             padding: 15px 40px;
             font-size: 1.2em;
@@ -65,20 +81,25 @@ if ($est_vainqueur){
             transition: transform 0.2s;
             font-weight: bold;
         }
-        button:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        button:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
     </style>
 </head>
+
 <body>
 
     <h1><?= $titre ?></h1>
     <p><?= $message ?></p>
-    
+
     <img src="<?= $gif ?>" alt="Resultat">
 
-    <form action="player.php" method="post">
-        <input type="hidden" name="reset_total" value="1">
+    <form action="reset_fin_partie.php" method="post">
         <button type="submit">REJOUER UNE PARTIE</button>
     </form>
 
 </body>
+
 </html>
