@@ -36,7 +36,6 @@ if (isset($_POST["reset_total"])) {
   unset($_SESSION['game_id']);
   unset($_SESSION['user_id']);
   unset($_SESSION['taille_grille']);
-  // Logique d'ABANDON : Définit la notification
   $_SESSION['notification_abandon'] = "La partie a été abandonnée. Le jeu est réinitialisé.";
 
   header("Location: player.php");
@@ -131,8 +130,8 @@ $role = $_SESSION["role"] ?? "Aucun rôle";
     <form method="post">
 
       <?php
-      $disableJ1 = $etat["j1_session_id"] && $etat["j1_session_id"] !== $current_session_id ? "disabled" : "";
-      $disableJ2 = $etat["j2_session_id"] && $etat["j2_session_id"] !== $current_session_id ? "disabled" : "";
+      $disableJ1 = $etat["j1"] && $etat["j1_session_id"] !== $current_session_id ? "disabled" : "";
+      $disableJ2 = $etat["j2"] && $etat["j2_session_id"] !== $current_session_id ? "disabled" : "";
 
       if ($is_player && $_SESSION['role'] === 'Joueur 1') {
         $disableJ2 = "disabled";
